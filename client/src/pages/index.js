@@ -3,7 +3,9 @@ import LandCard from "@/components/landCard";
 import { ConnectKitButton } from "connectkit";
 import Link from "next/link";
 export default function Home() {
+  
   const { isConnected } = useAccount();
+
   return (
     <>
       <div className="font-mono">
