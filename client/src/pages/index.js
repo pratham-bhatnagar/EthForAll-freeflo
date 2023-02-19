@@ -17,10 +17,10 @@ export default function Home() {
             ></img>
           </div>{" "}
           <div className="w-[70%] flex-col">
-            <div className=" w-full py-2 text-white text-4xl font-bold">
+            <div className=" w-full py-2 text-white text-5xl font-bold">
               Stream cashbacks every second.
             </div>
-            <div className="w-full text-l "> Tired of late deliveries? </div>
+            <div className="w-full text-xl text-center mt-14 mb-4 font-bold"> Tired of late deliveries? </div>
             <div className=" w-full   mt-[15px] grid gap-3 grid-cols-3">
               {" "}
               <LandCard text="Don't fret! We've got you covered with our cashback policy. 👽" />{" "}
@@ -38,7 +38,7 @@ export default function Home() {
           {isConnected ? (
             <Link href="/choice">
               <button
-                className={`z-10 bg-purple-600  opacity-90 border border-white  bottom-10 transition ease-in-out delay-100 hover:-translate-y-1 hover:scale-110 hover:bg-indigo-500 duration-300 hover:shadow-lg rounded-md p-1 mt-3 font-bold `}
+                className={`z-10 bg-purple-600 p-3 opacity-90 border border-white  bottom-10 transition ease-in-out delay-100 hover:-translate-y-1 hover:scale-110 hover:bg-indigo-500 duration-300 hover:shadow-lg rounded-md p-1 mt-3 font-bold `}
               >
                 {" "}
                 Launch App

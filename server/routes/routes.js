@@ -28,4 +28,13 @@ router.get("/getAll", async (req, res) => {
   }
 });
 
+router.delete('/deliverd',async(req,res)=>{
+  try{
+   const data = await Model.deleteOne({OrderedBy:req.body.OrderedBy});
+   res.json(data)
+  }catch(err){
+    console.log(err)
+  }
+})
+
 module.exports = router;

@@ -1,22 +1,27 @@
 import OrderCard from "@/components/orderCard";
-import { useContractEvent ,useSigner} from "wagmi";
+import { useContractEvent, useSigner } from "wagmi";
 import axios from "axios";
 import { FreeFlowABI } from "@/ABIs/FREEFLOWABI";
 import { freeFlow_addr } from "config";
-
+import Countdown from "react-countdown";
 import * as PushAPI from "@pushprotocol/restapi";
+import { useEffect, useState } from "react";
 
 const Customer = () => {
-   const { data: signer } = useSigner();
- 
-    const sendNotif = async (date) => {
+  const { data: signer } = useSigner();
+
+  const [time, setTime] = useState(0);
+
+  const sendNotif = async (date) => {
     const apiResponse = await PushAPI.payloads.sendNotification({
       signer,
       type: 1,
       identityType: 0,
       notification: {
         title: `Order Successfully Placed`,
-        body: `Your Order is placed successfully. It will reach by ${(new Date(date * 1000)).toLocaleString()}`,
+        body: `Your Order is placed successfully. It will reach by ${new Date(
+          date * 1000
+        ).toLocaleString()}`,
       },
       payload: {
         title: `[sdk-test] payload title`,
@@ -30,12 +35,12 @@ const Customer = () => {
     console.log(apiResponse);
   };
 
-
   useContractEvent({
     address: freeFlow_addr,
     abi: FreeFlowABI,
     eventName: "OrderPlaced",
     listener(id, _price, _orderPlacedTime, _estimateTimeOfDelivery, OrderedBy) {
+      setTime(Number(_estimateTimeOfDelivery._hex));
       axios
         .post("http://localhost:7878/api/post", {
           id: id._hex,
@@ -47,21 +52,39 @@ const Customer = () => {
         .then(
           (response) => {
             console.log(response);
-            
           },
           (error) => {
             console.log(error);
           }
         );
-         sendNotif(_estimateTimeOfDelivery._hex)
-        
-     
+      sendNotif(_estimateTimeOfDelivery._hex);
     },
     once: true,
   });
 
  
-  
+  const renderer = ({ hours, minutes, seconds, completed }) => {
+    if (completed) {
+      // flow logic
+      return (
+        <div>
+          <p>
+            Sorry For the Delay. 💸 We have stared a Cashback Flow for the
+            Delayed Time{" "}
+          </p>
+        </div>
+      );
+    } else {
+      // Render a countdown
+      return (
+        <span className="text-center">
+         ⏳ Order will be at your Doorstep in {" "}
+     <p className="font-extrabold">    {hours == 0 ? "":`${hours} hours(s) `}  {minutes==0?"":`${minutes} minute(s) `}  {seconds==0?"":`${seconds} second(s) `}  </p> 
+        </span>
+      );
+    }
+  };
+  // useEffect(() => {}, [orderPlaced]);
 
   return (
     <>
@@ -112,6 +135,16 @@ const Customer = () => {
           eta={1}
         />
       </div>
+
+      {time != 0 && (
+        <div className="w-full flex justify-center font-mono bg-yellow-900 p-2 fixed bottom-0">
+         
+          <Countdown
+            renderer={renderer}
+            date={Date.now() + (time * 1000 - Date.now())}
+          ></Countdown>
+        </div>
+      )}
     </>
   );
 };

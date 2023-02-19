@@ -2,6 +2,7 @@ import * as React from "react";
 import { useAccount, useSigner, useProvider, useContractEvent } from "wagmi";
 import { Toaster, toast } from "react-hot-toast";
 import { ethers } from "ethers";
+import { Framework } from "@superfluid-finance/sdk-core";
 
 // import getBalance from "@/hooks/getBalance";
 // import { ERC20ABI } from "@/ABIs/ERC20ABI";
@@ -9,26 +10,61 @@ import { FreeFlowABI } from "@/ABIs/FREEFLOWABI";
 import { fDai_addr, fDaiX_addr, freeFlow_addr } from "../../config";
 
 const OrderCard = (props) => {
-    
-  // const { isConnected, address } = useAccount();
-  // const balance = getBalance();
-
   const { data: signer } = useSigner();
-  // const provider = useProvider();
+  const provider = useProvider();
+
+  // const CreateFLow = async (recipient, flowRate) => {
+  //   const chainId = await window.ethereum.request({ method: "eth_chainId" });
+  //   const sf = await Framework.create({
+  //     chainId: Number(chainId),
+  //     provider: provider,
+  //   });
+
+  //   const superSigner = sf.createSigner({ signer: signer });
+  //   const daix = await sf.loadSuperToken("fDAIx");
+
+  //   try {
+  //     const createFlowOperation = daix.createFlow({
+  //       sender: freeFlow_addr,
+  //       receiver: await superSigner.getAddress(),
+  //       flowRate: 100,
+  //       // userData?: string
+  //     });
+  //     console.log(createFlowOperation);
+  //     console.log("Creating your stream...");
+
+  //     const result = await createFlowOperation.exec(superSigner);
+  //     console.log(result);
+
+  //     console.log(
+  //       `Congrats - you've just created a money stream!
+  //     `
+  //     );
+  //   } catch (error) {
+  //     console.log(
+  //       "Hmmm, your transaction threw an error. Make sure that this stream does not already exist, and that you've entered a valid Ethereum address!"
+  //     );
+  //     console.error(error);
+  //   }
+  // };
+  // CreateFLow();
 
   const [quantity, setQuantity] = React.useState(1);
-  // const [approved, setApproved] = React.useState(false);
 
-  // const fDAI = new ethers.Contract(fDai_addr, ERC20ABI, signer || undefined);
-  // const fDAIx = new ethers.Contract(fDaiX_addr, ERC20ABI, signer || undefined);
   const FreeFlow = new ethers.Contract(
     freeFlow_addr,
     FreeFlowABI,
     signer || undefined
   );
-  
 
+  // const provider = useProvider();
+  // const { isConnected, address } = useAccount();
+  // const balance = getBalance();
 
+  // const [approved, setApproved] = React.useState(false);
+
+  // const fDAI = new ethers.Contract(fDai_addr, ERC20ABI, signer || undefined);
+  // const fDAIx = new ethers.Contract(fDaiX_addr, ERC20ABI, signer || undefined);
 
   // const approveCoins = async () => {
   //   await fDAIx.approve(freeFlow_addr, "10000000000000000000000000");
@@ -45,7 +81,7 @@ const OrderCard = (props) => {
     toast.custom((t) => (
       <div
         className={`${
-          t.visible ? 'animate-enter' : 'animate-leave'
+          t.visible ? "animate-enter" : "animate-leave"
         } max-w-md w-full bg-white shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5`}
       >
         <div className="flex-1 w-0 p-4">
@@ -59,10 +95,13 @@ const OrderCard = (props) => {
             </div>
             <div className="ml-3 flex-1">
               <p className="text-sm font-medium text-gray-900">
-               Verify Your Tx Here:
+                Verify Your Tx Here:
               </p>
               <p className="mt-1 text-sm text-gray-500">
-                <a className="truncate underline flex flex-wrap" href={`https://etherscan.io/tx/${hash}`}>{`Here.`}</a>
+                <a
+                  className="truncate underline flex flex-wrap"
+                  href={`https://etherscan.io/tx/${hash}`}
+                >{`Here.`}</a>
               </p>
             </div>
           </div>
@@ -76,8 +115,7 @@ const OrderCard = (props) => {
           </button>
         </div>
       </div>
-    ))
-   
+    ));
   };
 
   return (
