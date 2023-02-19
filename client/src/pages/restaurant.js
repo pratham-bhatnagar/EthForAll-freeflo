@@ -2,7 +2,10 @@ import axios from "axios";
 import * as React from "react";
 import { freeFlow_addr } from "config";
 import {FreeFlowABI} from '../ABIs/FREEFLOWABI'
+import { ethers } from "ethers";
+import { useSigner } from "wagmi";
 const Restaurant = () => {
+  const { data: signer } = useSigner();
   const [order, setOrder] = React.useState([]);
 
   const FreeFlow = new ethers.Contract(
@@ -63,6 +66,11 @@ const Restaurant = () => {
                     </th>
                     <th className="border text-sm border-white py-5 m-2 gap-5 p-3">
                       <button
+                      onClick={async()=>{
+                      const {hash} = await FreeFlow.orderDelivered(
+                        i.OrderedBy,10
+                      )
+                      }}
                         className="bg-purple-600  opacity-90 border border-white  bottom-10 transition ease-in-out delay-100   hover:bg-indigo-500 duration-300 hover:shadow-lg rounded-xl p-1 px-2 font-bold
                 "
                       >

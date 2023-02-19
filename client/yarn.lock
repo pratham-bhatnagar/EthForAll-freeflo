@@ -943,10 +943,10 @@
     tiny-glob "^0.2.9"
     tslib "^2.4.0"
 
-"@pushprotocol/restapi@^0.6.1":
-  version "0.6.1"
-  resolved "https://registry.yarnpkg.com/@pushprotocol/restapi/-/restapi-0.6.1.tgz#ea6f6059ccc6119f7e4c83964d80e8b4ac381fcb"
-  integrity sha512-R2ECKIK21b4j5lv6lBrKBFmGwTb6VnI74GNKoocPzYDUsv/tOxp/f//Jznfs5oqzJZuRKt6RlqeTDKiV0PCtXw==
+"@pushprotocol/restapi@^0.3.0":
+  version "0.3.3"
+  resolved "https://registry.yarnpkg.com/@pushprotocol/restapi/-/restapi-0.3.3.tgz#7380228f63279a0269b0e02392b7eeb32376c3aa"
+  integrity sha512-6kxpa83Nes3nmQyersEDwSyeaYppV4MT15syKKl/LVaF0tCYuEHeKkF9l5NLhquZVH2xmqczV0GNmi2uuj3F8g==
   dependencies:
     "@metamask/eth-sig-util" "^5.0.0"
     axios "^0.27.2"

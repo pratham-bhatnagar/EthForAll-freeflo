@@ -3,7 +3,6 @@ import { useAccount, useSigner, useProvider, useContractEvent } from "wagmi";
 import { Toaster, toast } from "react-hot-toast";
 import { ethers } from "ethers";
 
-
 // import getBalance from "@/hooks/getBalance";
 // import { ERC20ABI } from "@/ABIs/ERC20ABI";
 import { FreeFlowABI } from "@/ABIs/FREEFLOWABI";
@@ -27,26 +26,7 @@ const OrderCard = (props) => {
     FreeFlowABI,
     signer || undefined
   );
-  //  const sendNotif = async () => {
-  //   const apiResponse = await PushAPI({
-  //     signer,
-  //     type: 1,
-  //     identityType: 0,
-  //     notification: {
-  //       title: `Order Successfully Placed`,
-  //       body: `Your Order is placed successfully.}`,
-  //     },
-  //     payload: {
-  //       title: `[sdk-test] payload title`,
-  //       body: `sample msg body`,
-  //       cta: "",
-  //       img: "",
-  //     },
-  //     channel: "eip155:5:0x0b686717E78a46b8f1f49Eb519D0713e3D0D8182", // your channel address
-  //     env: "staging",
-  //   });
-  // };
-
+  
 
 
 
@@ -62,10 +42,42 @@ const OrderCard = (props) => {
       props.eta,
       props.price
     );
-    toast(`Verify your Order here: https://goerli.etherscan.io/tx/${hash}`, {
-      icon: "📝",
-    });
-    sendNotif()
+    toast.custom((t) => (
+      <div
+        className={`${
+          t.visible ? 'animate-enter' : 'animate-leave'
+        } max-w-md w-full bg-white shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5`}
+      >
+        <div className="flex-1 w-0 p-4">
+          <div className="flex items-start">
+            <div className="flex-shrink-0 pt-0.5">
+              <img
+                className="h-10 w-10 rounded-full"
+                src="./etherscan.jpeg"
+                alt=""
+              />
+            </div>
+            <div className="ml-3 flex-1">
+              <p className="text-sm font-medium text-gray-900">
+               Verify Your Tx Here:
+              </p>
+              <p className="mt-1 text-sm text-gray-500">
+                <a className="truncate underline flex flex-wrap" href={`https://etherscan.io/tx/${hash}`}>{`Here.`}</a>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div className="flex border-l border-gray-200">
+          <button
+            onClick={() => toast.dismiss(t.id)}
+            className="w-full border border-transparent rounded-none rounded-r-lg p-4 flex items-center justify-center text-sm font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    ))
+   
   };
 
   return (
